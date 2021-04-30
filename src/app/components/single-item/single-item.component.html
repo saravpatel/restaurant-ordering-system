@@ -1,0 +1,108 @@
+<form [formGroup]="singleItem" *ngIf="singleItem">
+  <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <h5 class="card-title float-left">{{singleItem.get('name')?.value}}</h5>
+            <div class="float-right">
+              <div class="form-group">
+                <input type="text" placeholder="Qty" formControlName="quantity" class="form-control" style="width: 100px; font-size: 12px;">
+                <div *ngIf="f.quantity.errors">
+                  <span *ngIf="f.quantity.errors?.pattern" style="font-size: 10px; color: red">Only numeric value is allowed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="f.quantity.value > 0">
+          <div class="row" style="font-size: 13px;">
+            <ng-container *ngIf="singleItem.get('name')?.value === 'Burger'">
+              <div class="col-3">
+                <label>Condiments: </label>
+              </div>
+              <div class="col-9">
+                <div *ngFor="let singleCondiment of condiments" class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" [value]="singleCondiment" [id]="singleCondiment" (change)="condimentsChanged($event)">
+                  <label class="form-check-label" [for]="singleCondiment">
+                    {{singleCondiment}}
+                  </label>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="singleItem.get('name')?.value === 'Steak'">
+              <div class="col-3">
+                <label>Doneness: </label>
+              </div>
+              <div class="col-9">
+                <select formControlName="doneness" class="custom-select">
+                  <option value="null" hidden disabled selected>Select</option>
+                  <option *ngFor="let singleDoneness of doneness" [value]="singleDoneness">{{singleDoneness}}</option>
+                </select>
+              </div>
+            </ng-container>
+          </div><br>
+          <div class="row" style="font-size: 13px;" formGroupName="sides">
+            <div class="col-3">
+              <label>Sides: </label>
+            </div>
+            <div class="col-9">
+              <div class="row" *ngIf="singleItem.get('name')?.value === 'Burger'">
+                <div class="col-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="selectedSide" id="fries" value="Fries" (click)="sideClicked($event)">
+                    <label class="form-check-label" for="fries">
+                      Fries
+                    </label>
+                  </div>
+                </div>
+                <div class="col-8" *ngIf="singleItem.get('sides')?.get('selectedSide')?.value === 'Fries'">
+                  <select class="custom-select" formControlName="sideOption">
+                    <option value="null" hidden disabled selected>Size</option>
+                    <option value="Small">Small</option>
+                    <option value="Large">Large</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="selectedSide" id="salads_{{singleItem.get('name')?.value}}" value="Salads" (click)="sideClicked($event)">
+                    <label class="form-check-label" for="salads_{{singleItem.get('name')?.value}}">
+                      Salads
+                    </label>
+                  </div>
+                </div>
+                <div class="col-8" *ngIf="singleItem.get('sides')?.get('selectedSide')?.value === 'Salads'">
+                  <select class="custom-select" formControlName="sideOption">
+                    <option value="null" hidden disabled selected>Dressings</option>
+                    <!-- <option default disabled selected>Select your option</option> -->
+                    <option value="Caesar">Caesar</option>
+                    <option value="Balsamic">Balsamic</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row" *ngIf="singleItem.get('name')?.value === 'Steak'">
+                <div class="col-4">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" formControlName="selectedSide" id="bakedPotato" value="Baked Potato" (click)="sideClicked($event)">
+                    <label class="form-check-label" for="bakedPotato">
+                      Baked Potato
+                    </label>
+                  </div>
+                </div>
+                <div class="col-8" *ngIf="singleItem.get('sides')?.get('selectedSide')?.value === 'Baked Potato'">
+                  <div class="form-group">
+                    <input type="text" class="form-control" formControlName="sideOption" placeholder="No. of potatoes" style="font-size: 12px;">
+                    <div *ngIf="singleItem.get('sides')?.get('sideOption')?.errors">
+                      <span *ngIf="singleItem.get('sides')?.get('sideOption')?.errors?.required" style="font-size: 10px; color: red">Value is required</span>
+                      <span *ngIf="singleItem.get('sides')?.get('sideOption')?.errors?.pattern" style="font-size: 10px; color: red">Only numeric value is allowed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+</form>

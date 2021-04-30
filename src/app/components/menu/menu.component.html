@@ -1,0 +1,25 @@
+    <div class="row">
+      <div class="col-12 text-center">
+        <h3>Menu</h3>
+      </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row" formArrayName="items">
+        <div class="col-6" *ngFor="let singleItem of items.controls;">
+          <app-single-item [singleItem]="$any(singleItem)"></app-single-item>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px">
+        <div class="col-12">
+          <div class="form-group">
+            <input type="text" placeholder="Special Request" class="form-control" style="font-size: 12px;" formControlName="specialRequest">
+          </div>
+        </div>
+        <div class="col-12 text-center">
+          <div *ngIf="submitted && !hasSelectedItem">
+            <span style="font-size: 10px; color: red">Please select alteast one item to submit the order</span>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>

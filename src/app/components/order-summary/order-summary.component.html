@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-12 text-center">
+        <h3>Order Summary</h3>
+    </div>
+</div>
+<div class="row" *ngIf="orderDetails" style="font-size: 12px;">
+    <div class="col-8 offset-2">
+        <table class="table table-bordered">
+            <tr>
+                <th>Items</th>
+                <th>Particulars</th>
+            </tr>
+            <tr *ngFor="let single of orderDetails.items">
+                <td>{{single.name}}</td>
+                <td>
+                    <table class="table">
+                        <tr>
+                            <th>Quantity</th>
+                            <td>{{single.quantity}}</td>
+                        </tr>
+                        <tr *ngIf="single.name === 'Burger'">
+                            <th>Condiments</th>
+                            <td>{{single.condiments && single.condiments.length>0 ? single.condiments.join(', ') : '-'}}</td>
+                        </tr>
+                        <tr *ngIf="single.name === 'Steak'">
+                            <th>Doneness</th>
+                            <td>{{single.doneness ? single.doneness : '-'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Sides</th>
+                            <td>
+                                {{single.sides && single.sides.selectedSide ? (single.sides.sideOption ? single.sides.selectedSide + ' (' + single.sides.sideOption + ')' : single.sides.selectedSide) : '-'}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Special Request
+                </th>
+                <td>
+                    {{orderDetails.specialRequest ? orderDetails.specialRequest : '-'}}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
